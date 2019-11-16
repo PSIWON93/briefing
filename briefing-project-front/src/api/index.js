@@ -21,7 +21,9 @@ const request = (method, url, data) => {
     data
   }).then(result => result.data)
     .catch(result => {
+      console.log(result)
       const {status} = result.response
+      console.log(status)
       if (status === UNAUTHORIZED) return onUnauthorized()
       throw Error(result)
     })
@@ -33,9 +35,11 @@ export const setAuthInHeader = token => {
   axios.defaults.headers.common['Authorization'] = token ? `Bearer ${token}` : null;
 }
 
+
 export const board = {
-  fetch() {
-    return request('get', '/boards')
+  fetch(id) {
+    //api와 형식 매칭
+    return id ? request('get', `/boards/${id}`) : request('get', '/boards')
   },
   //400 error 
   create(title){

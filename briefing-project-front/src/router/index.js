@@ -5,14 +5,15 @@ import Login from '../components/Login.vue'
 import NotFound from '../components/NotFound.vue'
 import Board from '../components/Board.vue'
 import Card from '../components/Card.vue'
+import store from '../store'
 
 //미들웨어 
 Vue.use(VueRouter)
 
 const requireAuth = (to, from, next) => {
-  const isAuth = localStorage.getItem('token')
   const loginPath = `/login?rPath=${encodeURIComponent(to.path)}`
-  isAuth ? next() : next(loginPath)
+  //next()로 들어감
+  store.getters.isAuth  ? next() : next(loginPath)
 }
 
 const router = new VueRouter({
@@ -30,8 +31,8 @@ const router = new VueRouter({
     { 
       path: '/b/:bid', 
       component: Board,
-       children: [{path: 'c/:cid', component: Card}
-    ], beforeEnter: requireAuth 
+      beforeEnter: requireAuth,
+      children: [{ path: 'c/:cid', component: Card }] 
     },
     { 
       path: '*', 
