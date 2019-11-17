@@ -4,7 +4,7 @@
     <Navbar/>
 
     <!-- 라우트에 따라 대체되는 코드 -->
-    <router-view></router-view>
+    <router-view class="container"></router-view>
   </div>
 </template>
 
